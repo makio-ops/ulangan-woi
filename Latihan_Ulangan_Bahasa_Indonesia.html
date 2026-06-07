@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Latihan Ulangan Bahasa Indonesia</title>
+<style>
+body{font-family:Arial,sans-serif;max-width:800px;margin:auto;padding:20px}
+.question{margin-bottom:18px}
+button{padding:10px 16px}
+#result{font-size:20px;font-weight:bold;margin-top:20px}
+</style>
+</head>
+<body>
+<h1>Latihan Ulangan Bahasa Indonesia</h1>
+
+<form id="quiz">
+<div class="question">
+<p>1. Proses tawar-menawar untuk mencapai kesepakatan disebut ...</p>
+<label><input type="radio" name="q1" value="b"> Negosiasi</label><br>
+<label><input type="radio" name="q1" value="a"> Observasi</label>
+</div>
+
+<div class="question">
+<p>2. Struktur pertama teks biografi adalah ...</p>
+<label><input type="radio" name="q2" value="b"> Orientasi</label><br>
+<label><input type="radio" name="q2" value="a"> Reorientasi</label>
+</div>
+
+<div class="question">
+<p>3. Kata "beliau" termasuk ...</p>
+<label><input type="radio" name="q3" value="c"> Kata rujukan</label><br>
+<label><input type="radio" name="q3" value="a"> Kata kerja</label>
+</div>
+
+<div class="question">
+<p>4. Angin bernyanyi di malam hari menggunakan majas ...</p>
+<label><input type="radio" name="q4" value="c"> Personifikasi</label><br>
+<label><input type="radio" name="q4" value="a"> Metafora</label>
+</div>
+
+<div class="question">
+<p>5. Citraan yang berhubungan dengan suara adalah ...</p>
+<label><input type="radio" name="q5" value="b"> Auditif</label><br>
+<label><input type="radio" name="q5" value="a"> Visual</label>
+</div>
+
+<button type="button" onclick="checkQuiz()">Periksa Nilai</button>
+</form>
+
+<div id="result"></div>
+
+<script>
+function checkQuiz(){
+let score=0;
+const answers={q1:'b',q2:'b',q3:'c',q4:'c',q5:'b'};
+for(let q in answers){
+let selected=document.querySelector('input[name="'+q+'"]:checked');
+if(selected && selected.value===answers[q]) score++;
+}
+document.getElementById('result').innerHTML =
+'Nilai kamu: '+score+'/5 ('+(score*20)+')';
+}
+</script>
+</body>
+</html>
