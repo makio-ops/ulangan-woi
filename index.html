@@ -4,54 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CBT Bahasa Indonesia</title>
-
 <style>
 body{
 font-family:Arial,sans-serif;
-max-width:900px;
+max-width:800px;
 margin:auto;
 padding:20px;
-background:#f4f4f4;
 }
-
-h1{
-text-align:center;
-}
-
-#timer{
-position:sticky;
-top:0;
-background:white;
-padding:10px;
-font-size:24px;
-font-weight:bold;
-text-align:center;
+.soal{
 border:1px solid #ccc;
-margin-bottom:20px;
+padding:10px;
+margin:10px 0;
 }
-
-.question{
-background:white;
-padding:15px;
-margin-bottom:15px;
-border-radius:8px;
-}
-
 button{
-width:100%;
-padding:15px;
-font-size:18px;
-cursor:pointer;
-}
-
-#result{
-margin-top:20px;
-font-size:24px;
-font-weight:bold;
-text-align:center;
+padding:10px 20px;
+font-size:16px;
 }
 </style>
-
 </head>
 <body>
 
@@ -59,116 +28,64 @@ text-align:center;
 
 <div id="timer">30:00</div>
 
-<form id="quiz"></form>
+<form id="quiz">
 
-<button onclick="finishQuiz()" type="button">Selesai</button>
+<div class="soal">
+<p>1. Pengertian negosiasi adalah ...</p>
+<input type="radio" name="q1" value="A"> Proses tawar-menawar<br>
+<input type="radio" name="q1" value="B"> Puisi<br>
+<input type="radio" name="q1" value="C"> Cerpen<br>
+<input type="radio" name="q1" value="D"> Biografi
+</div>
 
-<div id="result"></div>
+<div class="soal">
+<p>2. Struktur pertama teks biografi adalah ...</p>
+<input type="radio" name="q2" value="A"> Orientasi<br>
+<input type="radio" name="q2" value="B"> Penutup<br>
+<input type="radio" name="q2" value="C"> Tema<br>
+<input type="radio" name="q2" value="D"> Amanat
+</div>
+
+<div class="soal">
+<p>3. Majas "angin bernyanyi" disebut ...</p>
+<input type="radio" name="q3" value="A"> Personifikasi<br>
+<input type="radio" name="q3" value="B"> Metafora<br>
+<input type="radio" name="q3" value="C"> Litotes<br>
+<input type="radio" name="q3" value="D"> Ironi
+</div>
+
+<button type="button" onclick="cekNilai()">Selesai</button>
+
+</form>
+
+<h2 id="hasil"></h2>
 
 <script>
 
-const questions = [
-{
-q:"Pengertian negosiasi adalah ...",
-a:["Proses tawar-menawar","Cerita hidup","Puisi","Laporan"],
-c:"A"
-},
-{
-q:"Struktur pertama teks negosiasi adalah ...",
-a:["Penutup","Orientasi","Persetujuan","Pengajuan"],
-c:"B"
-},
-{
-q:"Bahasa dalam negosiasi harus ...",
-a:["Santun","Kasar","Sembarangan","Emosional"],
-c:"A"
-},
-{
-q:"Struktur pertama biografi adalah ...",
-a:["Orientasi","Reorientasi","Koda","Penutup"],
-c:"A"
-},
-{
-q:"Ide pokok adalah ...",
-a:["Gagasan utama","Contoh","Judul","Kalimat penjelas"],
-c:"A"
-}
-];
+let waktu = 1800;
 
-while(questions.length < 30){
-questions.push({
-q:"Soal latihan tambahan nomor " + (questions.length + 1),
-a:["Pilihan A","Pilihan B","Pilihan C","Pilihan D"],
-c:"A"
-});
-}
+setInterval(function(){
+waktu--;
 
-const quiz = document.getElementById("quiz");
-
-questions.forEach((item,index)=>{
-
-let html = `
-<div class="question">
-<p><b>${index+1}. ${item.q}</b></p>
-`;
-
-["A","B","C","D"].forEach((letter,i)=>{
-html += `
-<label>
-<input type="radio" name="q${index}" value="${letter}">
-${letter}. ${item.a[i]}
-</label><br>
-`;
-});
-
-html += `</div>`;
-
-quiz.innerHTML += html;
-
-});
-
-let time = 1800;
-
-const timer = setInterval(()=>{
-
-time--;
-
-let minutes = Math.floor(time/60);
-let seconds = time%60;
+let menit = Math.floor(waktu/60);
+let detik = waktu%60;
 
 document.getElementById("timer").innerHTML =
-String(minutes).padStart(2,"0")+":"+
-String(seconds).padStart(2,"0");
-
-if(time<=0){
-clearInterval(timer);
-finishQuiz();
-}
+String(menit).padStart(2,"0")+":"+
+String(detik).padStart(2,"0");
 
 },1000);
 
-function finishQuiz(){
+function cekNilai(){
 
-let score = 0;
+let nilai = 0;
 
-questions.forEach((q,index)=>{
+if(document.querySelector('input[name="q1"]:checked')?.value=="A") nilai++;
+if(document.querySelector('input[name="q2"]:checked')?.value=="A") nilai++;
+if(document.querySelector('input[name="q3"]:checked')?.value=="A") nilai++;
 
-const selected =
-document.querySelector(`input[name="q${index}"]:checked`);
-
-if(selected && selected.value===q.c){
-score++;
-}
-
-});
-
-const nilai =
-Math.round((score/questions.length)*100);
-
-document.getElementById("result").innerHTML =
-`Benar ${score}/${questions.length}<br>Nilai: ${nilai}`;
-
-window.scrollTo(0,document.body.scrollHeight);
+document.getElementById("hasil").innerHTML =
+"Nilai Kamu: " + (nilai*100/3).toFixed(0);
 
 }
 
