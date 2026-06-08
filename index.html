@@ -1,95 +1,94 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CBT Bahasa Indonesia</title>
-<style>
-body{
-font-family:Arial,sans-serif;
-max-width:800px;
-margin:auto;
-padding:20px;
-}
-.soal{
-border:1px solid #ccc;
-padding:10px;
-margin:10px 0;
-}
-button{
-padding:10px 20px;
-font-size:16px;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Mystery Number Game</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+      padding-top: 80px;
+    }
+
+    .box {
+      background: #1e293b;
+      padding: 20px;
+      width: 300px;
+      margin: auto;
+      border-radius: 10px;
+    }
+
+    input {
+      padding: 10px;
+      width: 80%;
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 10px;
+      margin-top: 10px;
+      width: 85%;
+      cursor: pointer;
+      background: #2563eb;
+      border: none;
+      color: white;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    #msg {
+      margin-top: 15px;
+    }
+  </style>
 </head>
 <body>
 
-<h1>CBT Bahasa Indonesia</h1>
+  <div class="box">
+    <h2>🎮 Mystery Number</h2>
+    <p>Tebak angka 1 - 10</p>
 
-<div id="timer">30:00</div>
+    <input type="number" id="guess" placeholder="Masukkan tebakan">
+    <button onclick="check()">Tebak!</button>
 
-<form id="quiz">
+    <p id="msg"></p>
+  </div>
 
-<div class="soal">
-<p>1. Pengertian negosiasi adalah ...</p>
-<input type="radio" name="q1" value="A"> Proses tawar-menawar<br>
-<input type="radio" name="q1" value="B"> Puisi<br>
-<input type="radio" name="q1" value="C"> Cerpen<br>
-<input type="radio" name="q1" value="D"> Biografi
-</div>
+  <script>
+    let angkaRahasia = Math.floor(Math.random() * 10) + 1;
+    let percobaan = 0;
 
-<div class="soal">
-<p>2. Struktur pertama teks biografi adalah ...</p>
-<input type="radio" name="q2" value="A"> Orientasi<br>
-<input type="radio" name="q2" value="B"> Penutup<br>
-<input type="radio" name="q2" value="C"> Tema<br>
-<input type="radio" name="q2" value="D"> Amanat
-</div>
+    function check() {
+      let tebakan = document.getElementById("guess").value;
+      let msg = document.getElementById("msg");
 
-<div class="soal">
-<p>3. Majas "angin bernyanyi" disebut ...</p>
-<input type="radio" name="q3" value="A"> Personifikasi<br>
-<input type="radio" name="q3" value="B"> Metafora<br>
-<input type="radio" name="q3" value="C"> Litotes<br>
-<input type="radio" name="q3" value="D"> Ironi
-</div>
+      percobaan++;
 
-<button type="button" onclick="cekNilai()">Selesai</button>
+      if (tebakan == angkaRahasia) {
+        msg.innerHTML = "🎉 Benar! Kamu menang!";
 
-</form>
+        // 🔥 KEJUTAN (EASTER EGG)
+        setTimeout(() => {
+          alert("👀 KEJUTAN: Kamu menemukan mode rahasia!\nAI berkata: Kamu punya insting yang bagus 😏");
+          document.body.style.background = "#4c1d95";
+          msg.innerHTML = "✨ MODE RAHASIA AKTIF ✨";
+        }, 500);
 
-<h2 id="hasil"></h2>
+      } else if (tebakan > angkaRahasia) {
+        msg.innerHTML = "📉 Terlalu besar!";
+      } else {
+        msg.innerHTML = "📈 Terlalu kecil!";
+      }
 
-<script>
-
-let waktu = 1800;
-
-setInterval(function(){
-waktu--;
-
-let menit = Math.floor(waktu/60);
-let detik = waktu%60;
-
-document.getElementById("timer").innerHTML =
-String(menit).padStart(2,"0")+":"+
-String(detik).padStart(2,"0");
-
-},1000);
-
-function cekNilai(){
-
-let nilai = 0;
-
-if(document.querySelector('input[name="q1"]:checked')?.value=="A") nilai++;
-if(document.querySelector('input[name="q2"]:checked')?.value=="A") nilai++;
-if(document.querySelector('input[name="q3"]:checked')?.value=="A") nilai++;
-
-document.getElementById("hasil").innerHTML =
-"Nilai Kamu: " + (nilai*100/3).toFixed(0);
-
-}
-
-</script>
+      if (percobaan >= 5) {
+        msg.innerHTML = "💀 Kesempatan habis! Angka: " + angkaRahasia;
+      }
+    }
+  </script>
 
 </body>
 </html>
